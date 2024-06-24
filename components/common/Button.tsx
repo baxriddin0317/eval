@@ -7,7 +7,7 @@ interface props {
 
 const Button = ({children, className}: props) => {
   return (
-    <button className={`bg-brand-blue text-xl text-white font-medium hover:bg-transparent hover:text-brand-blue transition-all ease-in-out duration-300 border border-brand-blue rounded-lg px-6 ${className}`}>
+    <button className={`bg-brand-blue h-11 font-roboto text-white font-medium hover:bg-transparent hover:text-brand-blue transition-all ease-in-out duration-300 border border-brand-blue rounded-lg px-4 ${className}`}>
       {children}
     </button>
   )

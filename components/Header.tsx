@@ -22,7 +22,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className='relative z-[999] w-full bg-white shadow-2xl'>
+      <header className='fixed top-0 z-[999] w-full bg-white shadow-2xl'>
         {/* container */}
         <div className='max-w-[1920px] flex items-center justify-between mx-auto px-5 py-3'>
           {/* left */}

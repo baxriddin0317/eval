@@ -2,18 +2,17 @@ import Image from 'next/image';
 import React, { useState } from 'react'
 
 interface Props {
-  setRFPFile: (item:File|null) => void,
-  rfpFile: File | null
+  setPdfFiles: (files: File[]) => void;
+  pdfFiles: File[];
 }
 
-const ChooseRFP = ({setRFPFile, rfpFile}: Props) => {
-
+const ChoosePdf = ({setPdfFiles, pdfFiles}: Props) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setRFPFile(file);
+      const newFiles = Array.from(e.target.files);
+      setPdfFiles(newFiles);
     }
   };
 
@@ -36,16 +35,16 @@ const ChooseRFP = ({setRFPFile, rfpFile}: Props) => {
 
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-      const acceptedTypes = ['application/rfp']; // Specify accepted file types (XLS and XLSX)
-      const isValidFileType = Array.from(files).every((file: File) => {
-        const fileType = file.type;
-        return acceptedTypes.includes(fileType);
-      });
+      const acceptedTypes = ['application/pdf']; 
+      const validFiles = Array.from(files).filter((file: File) =>
+        acceptedTypes.includes(file.type)
+      );
 
-      if (isValidFileType) {
-        setRFPFile(files[0]);
+      if (validFiles) {
+        setPdfFiles(validFiles);
+        console.log('selected file: ', { target: { files: [files[0]] } });
       } else {
-        alert('Please drop only RFP files.');
+        alert('Please drop only PDF files.');
       }
     }
   };
@@ -53,7 +52,7 @@ const ChooseRFP = ({setRFPFile, rfpFile}: Props) => {
   return (
     <div 
       className={`h-[565px] max-w-[486px] mx-auto bg-brand-gray-100 rounded-[27px] w-full border-[3px] border-dashed py-5 px-2 ${
-        isDragging || rfpFile ? 'border-blue-600' : 'border-brand-blue/65'
+        isDragging || pdfFiles.length>0 ? 'border-blue-600' : 'border-brand-blue/65'
         }`}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
@@ -64,28 +63,30 @@ const ChooseRFP = ({setRFPFile, rfpFile}: Props) => {
         <div className='flex flex-col items-center'>
           <Image src={'/upload.svg'} width={52} height={52} alt='' />
           <div className='text-2xl my-5 text-brand-gray'>
-            <label htmlFor="fileRFP" className="cursor-pointer text-brand-blue font-semibold mr1">
+            <label htmlFor="filePdf" className="cursor-pointer text-brand-blue font-semibold mr1">
               Upload 
             </label>
-            <span> your RFP</span>
+            <span> your Proposal</span>
           </div>
           <div className='my-5 text-2xl text-brand-gray'>
-            {!rfpFile && <p>Drag your files here</p>}
-            {rfpFile && <p >
-              {rfpFile.name}
-            </p>}
+            {!(pdfFiles.length > 0) && <p>Drag your files here</p>}
+            <div className='flex flex-col'>
+              {pdfFiles.length > 0 && pdfFiles.map((pdf,idx) => (
+                <p key={idx}>{pdf.name}</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
       <input
-        id="fileRFP"
+        id="filePdf"
         type="file"
         className="sr-only"
-        accept=".rfp"
+        accept=".pdf"
         onChange={handleChange}
       />
     </div>
   )
 }
 
-export default ChooseRFP
+export default ChoosePdf

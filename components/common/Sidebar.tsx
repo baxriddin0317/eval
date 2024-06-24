@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 const menu = [
   {
     id: 1,
-    href: "/",
+    href: "/home",
     name: "home",
     icon: <GoHomeFill className='size-7' />
   },
@@ -42,7 +42,7 @@ const Sidebar = () => {
       <ul className='flex flex-col gap-4'>
         {menu.map(item => (
           <li className='w-full group hover:bg-brand-blue/10 rounded-md cursor-pointer py-1 px-2' key={item.id}>
-            <Link className={`flex items-center gap-3.5 capitalize ${pathname == item.href ? 'text-brand-blue' : 'text-brand-gray'} group-hover:text-brand-blue`} href={item.href}>
+            <Link onClick={() => store.setSidebarOpen(false)} className={`flex items-center gap-3.5 capitalize ${pathname == item.href ? 'text-brand-blue' : 'text-brand-gray'} group-hover:text-brand-blue`} href={item.href}>
               {item.icon}
               <span>{item.name}</span>
             </Link>
