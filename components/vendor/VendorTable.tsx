@@ -12,7 +12,7 @@ const VendorTable = () => {
 
   return (
     <table className='w-full'>
-      <thead className='sticky z-50 top-0'>
+      <thead className='sticky z-20 top-0'>
         <tr className='bg-brand-gray-400 text-black/85 h-[62px]'>
           <th className='text-left pl-7'>Evaluation Criteria</th>
           <th className='text-center'>Vendor Response “Recomendation”</th>
